@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block title %}{{ 'Edit Task' if editing else 'Add Task' }}{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">{{ 'Edit Task' if editing else 'Add New Task' }}</h2>
+
+<form method="POST">
+    {{ form.hidden_tag() }}
+    
+    <div class="mb-3">
+        {{ form.title.label(class="form-label") }}
+        {{ form.title(class="form-control") }}
+    </div>
+
+    <div class="mb-3">
+        {{ form.description.label(class="form-label") }}
+        {{ form.description(class="form-control", rows="4") }}
+    </div>
+
+    <div class="mb-3">
+        {{ form.category.label(class="form-label") }}
+        {{ form.category(class="form-control") }}
+    </div>
+
+    <div class="mb-3">
+        {{ form.due_date.label(class="form-label") }}
+        {{ form.due_date(class="form-control") }}
+    </div>
+
+    <button type="submit" class="btn btn-success">{{ 'Update Task' if editing else 'Create Task' }}</button>
+    <a href="{{ url_for('main.dashboard') }}" class="btn btn-secondary">Cancel</a>
+</form>
+{% endblock %}

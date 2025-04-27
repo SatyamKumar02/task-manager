@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">Your Tasks</h2>
+<a href="{{ url_for('main.add_task') }}" class="btn btn-primary mb-3">Add New Task</a>
+
+<div class="row row-cols-1 row-cols-md-2 g-4">
+  {% for task in tasks %}
+  <div class="col">
+    <div class="card {{ 'border-success' if task.completed else '' }}">
+      <div class="card-body">
+        <h5 class="card-title">
+          {{ task.title }}
+          {% if task.completed %}
+            <span class="badge bg-success">Done</span>
+          {% endif %}
+        </h5>
+        <p class="card-text">{{ task.description }}</p>
+        <p><strong>Category:</strong> {{ task.category }} | <strong>Due:</strong> {{ task.due_date.strftime('%Y-%m-%d') if task.due_date }}</p>
+
+        <div class="d-flex gap-2 mt-2">
+          <a href="{{ url_for('main.edit_task', task_id=task._id) }}" class="btn btn-sm btn-warning">Edit</a>
+          <a href="{{ url_for('main.toggle_task', task_id=task._id) }}" class="btn btn-sm btn-secondary">
+            {% if task.completed %}Mark Incomplete{% else %}Mark Complete{% endif %}
+          </a>
+          <a href="{{ url_for('main.delete_task', task_id=task._id) }}" class="btn btn-sm btn-danger" onclick="return confirm('Delete this task?')">Delete</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% else %}
+    <p>No tasks yet. Create one!</p>
+  {% endfor %}
+</div>
+{% endblock %}
+
